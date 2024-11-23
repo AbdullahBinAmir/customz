@@ -1,0 +1,80 @@
+import { useAdminCustomQuery, useAdminProduct } from "medusa-react"
+import { useNavigate, useParams } from "react-router-dom"
+import BackButton from "../../../atoms/back-button"
+import Spinner from "../../../atoms/spinner"
+import { getErrorStatus } from "../../../utils/get-error-status"
+import AttributesSection from "./sections/attributes"
+import GeneralSection from "./sections/general"
+import MediaSection from "./sections/media"
+import RawSection from "./sections/raw"
+import ThumbnailSection from "./sections/thumbnail"
+import VariantsSection from "./sections/variants"
+import SizeGuide from "./sections/sizeguide"
+
+const Edit = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+
+  const { product, status, error } = useAdminProduct(id || "")
+
+  if (error) {
+    let message = "An unknown error occurred"
+
+    const errorStatus = getErrorStatus(error)
+
+    if (errorStatus) {
+      message = errorStatus.message
+
+      // If the product is not found, redirect to the 404 page
+      if (errorStatus.status === 404) {
+        navigate("/404")
+        return null
+      }
+    }
+
+    // Let the error boundary handle the error
+    throw error
+  }
+
+  const { data, isLoading } = useAdminCustomQuery(
+    `/admin/inventory`,
+    ["inventory"]
+  )
+
+  if (status === "loading" || !product || isLoading) {
+    // temp, perhaps use skeletons?
+    return (
+      <div className="flex h-[calc(100vh-64px)] w-full items-center justify-center">
+        <Spinner variant="secondary" />
+      </div>
+    )
+  }
+
+
+
+
+  return (
+    <div className="pb-5xlarge">
+      <BackButton
+        path="/a/product"
+        label="Back to Products"
+        className="mb-xsmall"
+      />
+      <div className="grid grid-cols-12 gap-x-base">
+        <div className="col-span-8 flex flex-col gap-y-xsmall">
+          <GeneralSection product={product} />
+          <VariantsSection product={product} options={data.inventories} />
+          {/* <AttributesSection product={product} /> */}
+          {/* <RawSection product={product} /> */}
+        </div>
+        <div className="col-span-4 flex flex-col gap-y-xsmall">
+          <ThumbnailSection product={product} />
+          <MediaSection product={product} />
+        </div>
+      </div>
+      <SizeGuide product={product} />
+    </div>
+  )
+}
+
+export default Edit
