@@ -1,0 +1,27 @@
+image: node:20.5.1  # Use Node.js 18 as the base Docker image
+
+stages:
+  - lint
+  - build
+
+lint:
+  stage: lint
+  script:
+    - yarn install --legacy-peer-deps
+    - yarn lint
+  allow_failure: false
+  only:
+    - merge_requests
+
+build:
+  stage: build
+  script:
+    - yarn install --legacy-peer-deps
+    - yarn build
+  allow_failure: false
+  artifacts:
+    paths:
+      - .next/
+      - build/
+  only:
+    - main

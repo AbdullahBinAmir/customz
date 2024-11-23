@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Customizer</title>
+    <link rel="stylesheet" href="./customizer/css/demos.css" />
+
+    <link
+      href="./customizer/dist/css/FancyProductDesigner.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="./customizer/dist/fabric-5.3.1.min.js"></script>
+    <script src="./customizer/dist/js/FancyProductDesigner.min.js"></script>
+  </head>
+
+  <body style="margin: auto">
+    <!-- <div class="container"> -->
+    <div>
+      <div id="fpd-target" class="fpd-sidebar fpd-views-inside-right">
+        <!-- class="fpd-sidebar fpd-shadow-2 fpd-views-inside-right" -->
+        <button
+          id="triggerButton"
+          style="
+            width: 100px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border-radius: 20px;
+            padding: 5px 20px;
+            z-index: 9;
+            cursor: pointer;
+            color: black;
+            background-color: #cde5ff;
+            border: 1px solid black;
+          "
+        >
+          Proceed
+        </button>
+        <button
+          id="exitButton"
+          style="
+            width: 100px;
+            position: absolute;
+            right: 120px;
+            top: 10px;
+            border-radius: 20px;
+            padding: 5px 20px;
+            z-index: 9;
+            cursor: pointer;
+            color: black;
+            /* background-color: #cde5ff; */
+            background-color: #cde5ff;
+            border: 1px solid black;
+          "
+        >
+          Cancel
+        </button>
+        <!-- <select
+          id="select"
+          style="
+            width: 120px;
+            position: absolute;
+            right: 230px;
+            top: 10px;
+            border-radius: 20px;
+            padding: 5px 10px;
+            z-index: 9;
+            cursor: pointer;
+            color: black;
+            /* background-color: #cde5ff; */
+            background-color: #cde5ff;
+            border: 1px solid black;
+          "
+        >
+          <option value="printing">Printing</option>
+          <option value="embroidery">Embroidery</option>
+        </select> -->
+      </div>
+
+      <script>
+        const getLocalStorageData = () => {
+          const localStorageDataString = localStorage.getItem("customizerProps")
+          return JSON.parse(localStorageDataString) || {}
+        }
+
+        const cartId = localStorage.getItem("medusa_cart_id")
+        console.log("cartId======", cartId)
+        const ress = getLocalStorageData()
+        const thumbnail = ress.thumbnail
+        const multipleThumbnails = ress.icons || []
+
+        const transformIconsData = (iconsData) => {
+          return iconsData.map((icon) => ({
+            title: "",
+            source: icon.url,
+            parameters: {},
+            thumbnail: icon.url,
+          }))
+        }
+
+        const frontLeft = multipleThumbnails[0]?.metadata?.x || 300
+        const frontTop = multipleThumbnails[0]?.metadata?.y || 230
+        const frontWidth = multipleThumbnails[0]?.metadata?.width || 70
+        const frontHeight = multipleThumbnails[0]?.metadata?.height || 70
+
+        const backLeft = multipleThumbnails[1]?.metadata?.x || 200
+        const backTop = multipleThumbnails[1]?.metadata?.y || 200
+        const backWidth = multipleThumbnails[1]?.metadata?.width || 200
+        const backHeight = multipleThumbnails[1]?.metadata?.height || 200
+
+        const sleaveLeft = multipleThumbnails[2]?.metadata?.x || 230
+        const sleaveTop = multipleThumbnails[2]?.metadata?.y || 330
+        const sleaveWidth = multipleThumbnails[2]?.metadata?.width || 100
+        const sleaveHeight = multipleThumbnails[2]?.metadata?.height || 100
+
+        const productCategories = [
+          {
+            category: "Men",
+            products: [
+              [
+                {
+                  productThumbnail:
+                    multipleThumbnails[0] && multipleThumbnails[0]?.url,
+                  // "https://d3g7hp6owqj5vv.cloudfront.net/templates_library/shirts_men_standard/preview_men_standard_front-1.png",
+                  productTitle: "Men Standard",
+                  product_id: 9,
+                  title: "Front",
+                  thumbnail:
+                    multipleThumbnails[0] && multipleThumbnails[0]?.url,
+                  // "https://d3g7hp6owqj5vv.cloudfront.net/templates_library/shirts_men_standard/preview_men_standard_front-1.png",
+                  mask: {},
+                  options: {
+                    stageWidth: 600,
+                    stageHeight: 660,
+                    printingBox: {
+                      left: frontLeft,
+                      top: frontTop,
+                      width: frontWidth,
+                      height: frontHeight,
+                      visibility: false,
+                    },
+                    usePrintingBoxAsBounding: "yes",
+                    output: {
+                      width: 240,
+                      height: 400,
+                      bleed: 0,
+                    },
+                    customAdds: {
+                      uploads: true,
+                      texts: true,
+                      designs: true,
+                    },
+                  },
+                  elements: [
+                    {
+                      title: "Base",
+                      source:
+                        multipleThumbnails[0] && multipleThumbnails[0]?.url,
+                      type: "image",
+                      parameters: {
+                        left: 300,
+                        top: 330,
+                        originX: "center",
+                        originY: "center",
+                        z: -1,
+                        colorLinkGroup: "color-shirt",
+                        draggable: 0,
+                        rotatable: 0,
+                        resizable: 1,
+                        removable: 0,
+                        flipX: false,
+                        flipY: false,
+                        zChangeable: 0,
+                        scaleX: 0.7702969091194894,
+                        scaleY: 0.7702969091194894,
+                        uniScalingUnlockable: 0,
+                        angle: 0,
+                        price: 0,
+                        autoCenter: 0,
+                        replaceInAllViews: 0,
+                        autoSelect: 0,
+                        topped: 0,
+                        boundingBoxMode: "none",
+                        opacity: 1,
+                        excludeFromExport: 0,
+                        locked: 0,
+                        showInColorSelection: 0,
+                        boundingBox: 0,
+                        fixed: false,
+                        resizeToW: 0,
+                        resizeToH: 0,
+                        filter: 0,
+                        scaleMode: "fit",
+                        minScaleLimit: 0.01,
+                        advancedEditing: 0,
+                        uploadZone: 0,
+                        uploadZoneMovable: 0,
+                        uploadZoneRemovable: false,
+                        pattern: false,
+                      },
+                    },
+                  ],
+                },
+                {
+                  title: "Back",
+                  thumbnail:
+                    multipleThumbnails[1] && multipleThumbnails[1]?.url,
+                  // "https://d3g7hp6owqj5vv.cloudfront.net/templates_library/shirts_men_standard/preview_men_standard_back-1.png",
+                  mask: {},
+                  options: {
+                    stageWidth: 600,
+                    stageHeight: 660,
+                    printingBox: {
+                      left: backLeft,
+                      top: backTop,
+                      width: backWidth,
+                      height: backHeight,
+                      visibility: false,
+                    },
+                    usePrintingBoxAsBounding: "yes",
+                    output: {
+                      width: 240,
+                      height: 400,
+                      bleed: 0,
+                    },
+                    customAdds: {
+                      uploads: true,
+                      texts: true,
+                      designs: true,
+                    },
+                  },
+                  elements: [
+                    {
+                      title: "Base",
+                      source:
+                        multipleThumbnails[1] && multipleThumbnails[1]?.url,
+                      type: "image",
+                      parameters: {
+                        left: 300,
+                        top: 330,
+                        originX: "center",
+                        originY: "center",
+                        z: -1,
+                        colorLinkGroup: "color-shirt",
+                        draggable: 0,
+                        rotatable: 0,
+                        resizable: 1,
+                        removable: 0,
+                        flipX: false,
+                        flipY: false,
+                        zChangeable: 0,
+                        scaleX: 0.7702969091194894,
+                        scaleY: 0.7702969091194894,
+                        uniScalingUnlockable: 0,
+                        angle: 0,
+                        price: 0,
+                        autoCenter: 0,
+                        replaceInAllViews: 0,
+                        autoSelect: 0,
+                        topped: 0,
+                        boundingBoxMode: "none",
+                        opacity: 1,
+                        excludeFromExport: 0,
+                        locked: 0,
+                        showInColorSelection: 0,
+                        boundingBox: 0,
+                        fixed: false,
+                        resizeToW: 0,
+                        resizeToH: 0,
+                        filter: 0,
+                        scaleMode: "fit",
+                        minScaleLimit: 0.01,
+                        advancedEditing: 0,
+                        uploadZone: 0,
+                        uploadZoneMovable: 0,
+                        uploadZoneRemovable: false,
+                        pattern: false,
+                      },
+                    },
+                  ],
+                },
+                {
+                  title: "Sleave",
+                  thumbnail:
+                    multipleThumbnails[2] && multipleThumbnails[2]?.url,
+                  // "https://d3g7hp6owqj5vv.cloudfront.net/templates_library/shirts_men_standard/preview_men_standard_back-1.png",
+                  mask: {},
+                  options: {
+                    stageWidth: 600,
+                    stageHeight: 660,
+                    printingBox: {
+                      left: sleaveLeft,
+                      top: sleaveTop,
+                      width: sleaveWidth,
+                      height: sleaveHeight,
+                      visibility: false,
+                    },
+                    usePrintingBoxAsBounding: "yes",
+                    output: {
+                      width: 240,
+                      height: 400,
+                      bleed: 0,
+                    },
+                    customAdds: {
+                      uploads: true,
+                      texts: true,
+                      designs: true,
+                    },
+                  },
+                  elements: [
+                    {
+                      title: "Base",
+                      source:
+                        multipleThumbnails[2] && multipleThumbnails[2]?.url,
+                      type: "image",
+                      parameters: {
+                        left: 300,
+                        top: 330,
+                        originX: "center",
+                        originY: "center",
+                        z: -1,
+                        colorLinkGroup: "color-shirt",
+                        draggable: 0,
+                        rotatable: 0,
+                        resizable: 1,
+                        removable: 0,
+                        flipX: false,
+                        flipY: false,
+                        zChangeable: 0,
+                        scaleX: 0.7702969091194894,
+                        scaleY: 0.7702969091194894,
+                        uniScalingUnlockable: 0,
+                        angle: 0,
+                        price: 0,
+                        autoCenter: 0,
+                        replaceInAllViews: 0,
+                        autoSelect: 0,
+                        topped: 0,
+                        boundingBoxMode: "none",
+                        opacity: 1,
+                        excludeFromExport: 0,
+                        locked: 0,
+                        showInColorSelection: 0,
+                        boundingBox: 0,
+                        fixed: false,
+                        resizeToW: 0,
+                        resizeToH: 0,
+                        filter: 0,
+                        scaleMode: "fit",
+                        minScaleLimit: 0.01,
+                        advancedEditing: 0,
+                        uploadZone: 0,
+                        uploadZoneMovable: 0,
+                        uploadZoneRemovable: false,
+                        pattern: false,
+                      },
+                    },
+                  ],
+                },
+              ],
+            ],
+          },
+        ]
+
+        // const appOptions = {
+        //   productsJSON: productCategories,
+        //   // productsJSON: productThumbnail,
+        //   // productsJSON: "./customizer/data/products/product-categories.json",
+        //   // productsJSON: "./customizer/data/products/single-product.json",
+        //   // designsJSON: "./customizer/data/designs/design-categories.json",
+        //   designsJSON:
+        //     "./customizer/data/designs/customz-design-categories.json",
+        //   // designsJSON: transformIconsData(ress.icons),
+        //   layouts: "./customizer/data/layouts/data.json",
+        //   langJSON: "./customizer/data/langs/default.json",
+        //   initialActiveModule: "products",
+        //   toolbarPlacement: "topbar",
+        //   mainBarModules: [
+        //     "products",
+        //     "images",
+        //     "text",
+        //     "designs",
+        //     "manage-layers",
+        //     "text-layers",
+        //     // "save-load",
+        //   ],
+        //   fonts: [
+        //     { name: "Lobster", url: "google" },
+        //     {
+        //       name: "Aller",
+        //       // url: "fonts/Aller.ttf",
+        //       url: "./customizer/fonts/Aller.ttf",
+        //       variants: {
+        //         n7: "./customizer/fonts/Aller__bold.ttf",
+        //         i4: "./customizer/fonts/Aller__italic.ttf",
+        //         i7: "./customizer/fonts/Aller__bolditalic.ttf",
+        //       },
+        //     },
+        //     { name: "Pacifico", url: "./customizer/fonts/Pacifico.ttf" },
+        //   ],
+        //   textTemplates: [
+        //     {
+        //       text: "Text Template Content",
+        //       properties: {
+        //         fontSize: 30,
+        //         fontFamily: "Lobster",
+        //       },
+        //     },
+        //     {
+        //       text: "Another Text Template",
+        //       properties: {
+        //         fontSize: 50,
+        //         fontFamily: "Pacifico",
+        //       },
+        //     },
+        //   ],
+        //   // fileServerURL: "", //enter the url to the file-handler.php, see https://github.com/radykal/fpd-js-server
+        //   // fileServerURL: "https://eofn8bcfgx9hac4.m.pipedream.net", //enter the url to the file-handler.php, see https://github.com/radykal/fpd-js-server
+        //   fileServerURL: "http://192.168.18.126:3000/upload", //enter the url to the file-handler.php, see https://github.com/radykal/fpd-js-server
+        //   facebookAppId: "",
+        //   instagramClientId: "",
+        //   instagramRedirectUri: "./customizer/data/html/instagram_auth.html",
+        //   instagramTokenUri: "", //enter the url to the instagram-token.php, see https://github.com/radykal/fpd-js-server
+        //   colorPickerPalette: [
+        //     "#000",
+        //     "#f4cccc",
+        //     "#fce5cd",
+        //     "#fff2cc",
+        //     "#d9ead3",
+        //     "#d0e0e3",
+        //     "#cfe2f3",
+        //     "#d9d2e9",
+        //     "#ead1dc",
+        //     "#5f27cd",
+        //     "#222f3e",
+        //     "#10ac84",
+        //   ],
+        //   pixabayApiKey: "",
+        //   pixabayLang: "en",
+        //   pixabayHighResImages: false,
+        //   elementParameters: {},
+        //   customImageParameters: {
+        //     removable: true,
+        //     draggable: true,
+        //     resizable: true,
+        //     autoCenter: true,
+        //     // price: 10,
+        //     maxSize: 10,
+        //     autoSelect: true,
+        //     advancedEditing: true,
+        //   },
+        //   customTextParameters: {
+        //     autoCenter: true,
+        //     draggable: true,
+        //     removable: true,
+        //     colors: true,
+        //   },
+        // }
+
+        const appOptions = {
+          productsJSON: productCategories,
+          designsJSON:
+            "./customizer/data/designs/customz-design-categories.json",
+          layouts: "./customizer/data/layouts/data.json",
+          langJSON: "./customizer/data/langs/default.json",
+          initialActiveModule: "products",
+          // modalMode: "#open-modal",
+          mainBarModules: [
+            "products",
+            "images",
+            "text",
+            "designs",
+            "manage-layers",
+            "text-layers",
+            // "save-load",
+          ],
+          actions: {
+            left: [
+              // "info",
+              "download",
+              "print",
+              "snap",
+              "preview-lightbox",
+              "reset-product",
+            ],
+            center: ["undo", "redo"],
+            right: [
+              // "zoom",
+              // "reset-product"
+            ],
+          },
+          fonts: [
+            { name: "Italianno", url: "google" },
+            { name: "Great Vibes", url: "google" },
+            { name: "Sacramento", url: "google" },
+            { name: "Quicksand", url: "google" },
+            { name: "Baloo", url: "google" },
+            { name: "Old Standard TT", url: "google" },
+            { name: "Unbounded", url: "google" },
+            { name: "Dancing Script", url: "google" },
+            { name: "Tangerine", url: "google" },
+            { name: "Merriweather", url: "google" },
+            { name: "Josefin Sans", url: "google" },
+            { name: "Tinos", url: "google" },
+            { name: "Arimo", url: "google" },
+            { name: "Radley", url: "google" },
+            { name: "Open Sans", url: "google" },
+            { name: "Outfit", url: "google" },
+            { name: "Anton", url: "google" },
+            { name: "Material Icons", url: "google" },
+            { name: "Montserrat", url: "google" },
+            { name: "Inconsolata", url: "google" },
+            { name: "Noto Sans", url: "google" },
+            { name: "Source Sans Pro", url: "google" },
+            { name: "Besley", url: "google" },
+            { name: "Fraunces", url: "google" },
+            { name: "Oxygen", url: "google" },
+            { name: "Cambay", url: "google" },
+            { name: "Eczar", url: "google" },
+            { name: "Libre Baskerville", url: "google" },
+            { name: "Cormorant", url: "google" },
+            { name: "Crimson Text", url: "google" },
+            { name: "Syne", url: "google" },
+            { name: "Space Mono", url: "google" },
+            { name: "Playfair Display", url: "google" },
+            { name: "Ubuntu", url: "google" },
+            { name: "Kay Pho Du", url: "google" },
+            { name: "Sixtyfour Convergence", url: "google" },
+            { name: "Raleway", url: "google" },
+            { name: "Oswald", url: "google" },
+            { name: "Hind", url: "google" },
+            { name: "Lato", url: "google" },
+            { name: "Inter", url: "google" },
+            { name: "Poppins", url: "google" },
+            { name: "Roboto", url: "google" },
+            { name: "Lobster", url: "google" },
+            {
+              name: "Aller",
+              url: "./customizer/fonts/Aller.ttf",
+              variants: {
+                n7: "./customizer/fonts/Aller__bold.ttf",
+                i4: "./customizer/fonts/Aller__italic.ttf",
+                i7: "./customizer/fonts/Aller__bolditalic.ttf",
+              },
+            },
+            { name: "Pacifico", url: "./customizer/fonts/Pacifico.ttf" },
+          ],
+          textTemplates: [
+            {
+              text: "Text Template Content",
+              properties: {
+                fontSize: 18,
+                fontFamily: "Lobster",
+              },
+            },
+          ],
+          fileServerURL:
+            "https://api.customz.shop/store/custom/customizerUpload", //enter the url to the file-handler.php, see https://github.com/radykal/fpd-js-server
+          cartId: cartId,
+          // fileServerURL: "http://localhost:9000/store/custom/customizerUpload",
+          facebookAppId: "",
+          instagramClientId: "",
+          instagramRedirectUri: "./customizer/data/html/instagram_auth.html",
+          instagramTokenUri: "", //enter the url to the instagram-token.php, see https://github.com/radykal/fpd-js-server
+          colorPickerPalette: [
+            "#000",
+            "#f4cccc",
+            "#fce5cd",
+            "#fff2cc",
+            "#d9ead3",
+            "#d0e0e3",
+            "#cfe2f3",
+            "#d9d2e9",
+            "#ead1dc",
+            "#5f27cd",
+            "#222f3e",
+            "#10ac84",
+          ],
+          pixabayApiKey: "",
+          pixabayLang: "en",
+          pixabayHighResImages: false,
+          elementParameters: {},
+          customImageParameters: {
+            removable: true,
+            draggable: false,
+            resizable: true,
+            autoCenter: true,
+            // maxSize: 10,
+            autoSelect: false,
+            advancedEditing: true,
+            boundingBoxMode: "limitModify",
+            scaleMode: "fit",
+          },
+          customTextParameters: {
+            autoCenter: true,
+            draggable: false,
+            removable: true,
+            colors: true,
+
+            autoSelect: true,
+            advancedEditing: true,
+            boundingBoxMode: "limitModify",
+            scaleMode: "fit",
+          },
+        }
+
+        const appOptionsEmbroidery = {
+          productsJSON: productCategories,
+          designsJSON:
+            "./customizer/data/designs/customz-design-categories.json",
+          layouts: "./customizer/data/layouts/data.json",
+          langJSON: "./customizer/data/langs/default.json",
+          initialActiveModule: "products",
+          // modalMode: "#open-modal",
+          mainBarModules: [
+            "products",
+            // "images",
+            "text",
+            // "designs",
+            "manage-layers",
+            "text-layers",
+            // "save-load",
+          ],
+          actions: {
+            left: [
+              // "info",
+              "download",
+              "print",
+              "snap",
+              "preview-lightbox",
+              "reset-product",
+            ],
+            center: ["undo", "redo"],
+            right: [
+              // "zoom",
+              // "reset-product"
+            ],
+          },
+          fonts: [
+            { name: "Italianno", url: "google" },
+            { name: "Great Vibes", url: "google" },
+            { name: "Sacramento", url: "google" },
+            { name: "Quicksand", url: "google" },
+            { name: "Baloo", url: "google" },
+            { name: "Old Standard TT", url: "google" },
+            { name: "Unbounded", url: "google" },
+            { name: "Dancing Script", url: "google" },
+            { name: "Tangerine", url: "google" },
+            { name: "Merriweather", url: "google" },
+            { name: "Josefin Sans", url: "google" },
+            { name: "Tinos", url: "google" },
+            { name: "Arimo", url: "google" },
+            { name: "Radley", url: "google" },
+            { name: "Open Sans", url: "google" },
+            { name: "Outfit", url: "google" },
+            { name: "Anton", url: "google" },
+            { name: "Material Icons", url: "google" },
+            { name: "Montserrat", url: "google" },
+            { name: "Inconsolata", url: "google" },
+            { name: "Noto Sans", url: "google" },
+            { name: "Source Sans Pro", url: "google" },
+            { name: "Besley", url: "google" },
+            { name: "Fraunces", url: "google" },
+            { name: "Oxygen", url: "google" },
+            { name: "Cambay", url: "google" },
+            { name: "Eczar", url: "google" },
+            { name: "Libre Baskerville", url: "google" },
+            { name: "Cormorant", url: "google" },
+            { name: "Crimson Text", url: "google" },
+            { name: "Syne", url: "google" },
+            { name: "Space Mono", url: "google" },
+            { name: "Playfair Display", url: "google" },
+            { name: "Ubuntu", url: "google" },
+            { name: "Kay Pho Du", url: "google" },
+            { name: "Sixtyfour Convergence", url: "google" },
+            { name: "Raleway", url: "google" },
+            { name: "Oswald", url: "google" },
+            { name: "Hind", url: "google" },
+            { name: "Lato", url: "google" },
+            { name: "Inter", url: "google" },
+            { name: "Poppins", url: "google" },
+            { name: "Roboto", url: "google" },
+            { name: "Lobster", url: "google" },
+            {
+              name: "Aller",
+              url: "./customizer/fonts/Aller.ttf",
+              variants: {
+                n7: "./customizer/fonts/Aller__bold.ttf",
+                i4: "./customizer/fonts/Aller__italic.ttf",
+                i7: "./customizer/fonts/Aller__bolditalic.ttf",
+              },
+            },
+            { name: "Pacifico", url: "./customizer/fonts/Pacifico.ttf" },
+          ],
+          textTemplates: [
+            {
+              text: "Text Template Content",
+              properties: {
+                fontSize: 18,
+                fontFamily: "Lobster",
+              },
+            },
+          ],
+          fileServerURL:
+            "https://api.customz.shop/store/custom/customizerUpload", //enter the url to the file-handler.php, see https://github.com/radykal/fpd-js-server
+          // fileServerURL: "https://dashboard.customz.shop/upload", //enter the url to the file-handler.php, see https://github.com/radykal/fpd-js-server
+          facebookAppId: "",
+          instagramClientId: "",
+          instagramRedirectUri: "./customizer/data/html/instagram_auth.html",
+          instagramTokenUri: "", //enter the url to the instagram-token.php, see https://github.com/radykal/fpd-js-server
+          colorPickerPalette: [
+            "#000",
+            "#f4cccc",
+            "#fce5cd",
+            "#fff2cc",
+            "#d9ead3",
+            "#d0e0e3",
+            "#cfe2f3",
+            "#d9d2e9",
+            "#ead1dc",
+            "#5f27cd",
+            "#222f3e",
+            "#10ac84",
+          ],
+          pixabayApiKey: "",
+          pixabayLang: "en",
+          pixabayHighResImages: false,
+          elementParameters: {},
+          customImageParameters: {
+            removable: true,
+            draggable: false,
+            resizable: true,
+            autoCenter: true,
+            // maxSize: 10,
+            autoSelect: false,
+            advancedEditing: true,
+            boundingBoxMode: "limitModify",
+            scaleMode: "fit",
+          },
+          customTextParameters: {
+            autoCenter: true,
+            draggable: false,
+            removable: true,
+            colors: true,
+
+            autoSelect: false,
+            advancedEditing: true,
+            boundingBoxMode: "limitModify",
+            scaleMode: "fit",
+          },
+        }
+
+        let designType = ""
+        let fpd
+        // if (designType === "isEmroidery") {
+        if (ress.isEmroidery) {
+          designType = "Embroidery"
+          fpd = new FancyProductDesigner(
+            document.getElementById("fpd-target"),
+            appOptionsEmbroidery
+          )
+        } else {
+          designType = "Printing"
+          fpd = new FancyProductDesigner(
+            document.getElementById("fpd-target"),
+            appOptions
+          )
+        }
+
+        fpd.addEventListener("ready", () => {
+          const triggerButton = document.getElementById("triggerButton")
+          const exit = document.getElementById("exitButton")
+          // const triggerSelect = document.getElementById("select")
+
+          // let designType = "printing"
+          const modulesToHide = ["images", "designs"]
+
+          const hideSubmodules = (designType) => {
+            // Select all the module elements
+            const modules = document.querySelectorAll(
+              "fpd-module-images, fpd-module-designs"
+              // fpd-module-text, fpd-module-designs"
+            )
+            const textModule = document.querySelector("fpd-module-text")
+
+            console.log("modules", modules)
+            modules.forEach((module) => {
+              if (designType === "embroidery") {
+                // Hide the submodules
+                // module.style.display = "none" // Hides the entire module
+                module.classList.remove("fpd-active")
+              } else {
+                module.classList.add("fpd-active")
+                // module.style.display = "block" // Reset to default display
+                // Show the module if not hiding
+              }
+            })
+          }
+
+          const updateModuleVisibility = () => {
+            const mainBar = fpd.mainBar.container // Access the main bar container
+            console.log("main bar", mainBar)
+            modulesToHide.forEach((moduleKey) => {
+              // Find the specific main module's DOM element by its data attribute
+              const moduleElement = mainBar.querySelector(
+                `[data-module="${moduleKey}"]`
+              )
+
+              if (moduleElement) {
+                // Find all submodules associated with the main module
+                const subModuleElements = mainBar.querySelectorAll(
+                  `[data-submodule-of="${moduleKey}"]`
+                )
+
+                if (designType === "embroidery") {
+                  // Hide main module for embroidery design type
+                  moduleElement.style.display = "none" // Hide the main module
+                  console.log(`Hid main module: ${moduleKey}`)
+
+                  // Hide all submodules associated with the main module
+                  subModuleElements.forEach((subModuleElement) => {
+                    subModuleElement.style.display = "none" // Hide the submodule
+                    console.log(
+                      `Hid submodule: ${subModuleElement.getAttribute(
+                        "data-submodule-of"
+                      )}`
+                    )
+                  })
+                } else {
+                  // Show main module for other design types
+                  moduleElement.style.display = "block" // Show the main module
+                  console.log(`Showed main module: ${moduleKey}`)
+
+                  // Show all submodules associated with the main module
+                  subModuleElements.forEach((subModuleElement) => {
+                    subModuleElement.style.display = "block" // Show the submodule
+                    console.log(
+                      `Showed submodule: ${subModuleElement.getAttribute(
+                        "data-submodule-of"
+                      )}`
+                    )
+                  })
+                }
+              } else {
+                console.log(`Main module not found: ${moduleKey}`)
+              }
+            })
+          }
+
+          // Update visibility on design type change
+          // triggerSelect.addEventListener("change", (event) => {
+          //   designType = event.target.value
+          //   // hideSubmodules(designType)
+          //   // updateModuleVisibility()
+          // })
+
+          // Initial visibility setup
+          // hideSubmodules(designType)
+          // updateModuleVisibility()
+
+          // const extraData = {
+          //   message: "Hello from iframe!",
+          //   otherProperty: "Some value",
+          // }
+          triggerButton.addEventListener("click", () => {
+            fpd.getProductDataURL(function (dataURL) {
+              const messagePayload = {
+                dataURL,
+                isBase64: true,
+                designType,
+              }
+              window.parent.postMessage(messagePayload, "*")
+            })
+          })
+
+          exit.addEventListener("click", () => history.back())
+        })
+      </script>
+    </div>
+  </body>
+</html>
